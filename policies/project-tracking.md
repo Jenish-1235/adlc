@@ -21,6 +21,7 @@ Issues live in Linear. Docs and specs live in Notion.
 | Label | Meaning |
 |---|---|
 | `AGENT: created` | An agent filed this issue |
+| `AGENT: proposal` | An agent's improvement idea, waiting for a human to approve or cancel it |
 | `AGENT: needs-approval` | In Needs Input, waiting on a Gated action |
 | `AGENT: needs-clarification` | In Needs Input, waiting on an answer |
 | `AGENT: human-only` | Agents never work on it |
