@@ -1,6 +1,8 @@
 # ADLC
 
-Agentic Development Lifecycle: the team's shared tools, rules, and workflows for building software with AI agents. Works with any tool that reads `AGENTS.md` and Agent Skills, such as Cursor, Claude Code, and Codex.
+**Agentic Development Lifecycle:** how a team of humans and AI agents builds software together, from issue to production. It's not a framework for building AI agents.
+
+It ships the rules agents follow, the tools they may use, step-by-step skills, language standards, project templates, and least-privilege cloud access. Works with any tool that reads `AGENTS.md` and Agent Skills, such as Cursor, Claude Code, and Codex.
 
 ## Layout
 
@@ -22,6 +24,7 @@ Agentic Development Lifecycle: the team's shared tools, rules, and workflows for
 just new ddd-golang ~/code/my-service   # new project from a template
 just onboard ~/code/my-project          # existing project: install, then report gaps
 just verify ~/code/my-project           # recheck after migrating
+just doctor ~/code/my-project           # check tools and pending placeholders
 ```
 
 See [Adopting ADLC](guides/adopting-adlc.md).
@@ -32,8 +35,9 @@ See [Adopting ADLC](guides/adopting-adlc.md).
 |---|---|
 | Onboard | `onboard-project` |
 | Plan | `start-issue`, `create-issue` |
-| Build | `implement-design`, `update-package-docs`, plus each template's patterns skill |
+| Build | `implement-design`, `write-migration`, `upgrade-dependency`, `update-package-docs`, plus each template's patterns skill |
 | Test | `run-local-stack`, `debug-ci` |
-| Review | `open-pr`, `address-review` |
+| Review | `review-code`, `open-pr`, `address-review` |
 | Deploy | — |
 | Operate | `investigate-incident` |
+| Improve | `continuous-improvement` |
