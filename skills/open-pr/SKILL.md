@@ -5,7 +5,7 @@ description: Prepare and open a pull request following team standards. Use when 
 
 # Open a PR
 
-1. Review your own diff. Remove debug code, unrelated changes, and commented-out code.
+1. Review your change with the `review-code` skill.
 2. {{ask: Is there a PR size limit? If yes, replace this line with "If the diff exceeds <N> changed lines, propose a split to the human and stop." If no, delete this line.}}
 3. Push the branch.
 4. Open the PR as ready for review, not draft.
