@@ -22,10 +22,17 @@ install project:
     cd "{{ project }}"
     exclude=$(git rev-parse --git-path info/exclude)
     add_exclude() { grep -qxF "$1" "$exclude" 2>/dev/null || echo "$1" >> "$exclude"; }
-    ln -sfn "{{ justfile_directory() }}" .adlc
+    target="{{ justfile_directory() }}"
+    if [ -f .adlc-version ]; then
+      version=$(cat .adlc-version)
+      target="{{ justfile_directory() }}/.versions/$version"
+      [ -d "$target" ] || git -C "{{ justfile_directory() }}" worktree add -q --detach "$target" "$version"
+    fi
+    ln -sfn "$target" .adlc
     add_exclude .adlc
     for dir in {{ skill_dirs }}; do
       mkdir -p "$dir"
+      find "$dir" -maxdepth 1 -type l -lname '../../.adlc/skills/*' -delete
       for skill in .adlc/skills/*/; do
         name=$(basename "$skill")
         ln -sfn "../../.adlc/skills/$name" "$dir/$name"
@@ -35,11 +42,66 @@ install project:
     grep -qxF '{{ pointer }}' AGENTS.md 2>/dev/null || echo '{{ pointer }}' >> AGENTS.md
     [ -e CLAUDE.md ] || ln -s AGENTS.md CLAUDE.md
 
-# Install ADLC into an existing project and report what doesn't match the structure
-onboard project: (install project) (verify project)
+# Pin a project to an ADLC release and relink it
+pin project version:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    cd "{{ invocation_directory() }}" && cd "{{ project }}"
+    echo "{{ version }}" > .adlc-version
+    just --justfile "{{ justfile() }}" install .
+
+# Tag an ADLC release once CHANGELOG.md has a section for it
+release version:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -z "$(git status --porcelain)" ] || { echo "Commit or stash changes first."; exit 1; }
+    grep -qx "## {{ version }}" CHANGELOG.md || { echo "Add a '## {{ version }}' section to CHANGELOG.md first."; exit 1; }
+    git tag -a "{{ version }}" -m "ADLC {{ version }}"
+    echo "Tagged {{ version }}. Push it with: git push origin {{ version }}"
+
+# List first-run placeholders that still need an answer
+pending:
+    #!/usr/bin/env bash
+    matches=$(grep -rn '{{{{ask:' policies skills)
+    [ -z "$matches" ] && { echo "No pending placeholders."; exit 0; }
+    echo "$matches" | sed -E 's/^([^:]+:[0-9]+):.*\{\{ask: ([^?]*\?).*/\1  \2/'
+    echo "$(echo "$matches" | wc -l | tr -d ' ') placeholders pending."
+    exit 1
+
+# Check the tools a project needs before an agent starts work
+doctor project=".":
+    #!/usr/bin/env bash
+    set -uo pipefail
+    cd "{{ invocation_directory() }}" && cd "{{ project }}" || exit 1
+    problems=0
+    need() {
+      for tool in $1; do command -v "$tool" >/dev/null && { echo "ok       $tool"; return; }; done
+      echo "missing  ${1// / or } ($2)"; problems=1
+    }
+    need git "version control"
+    need just "project recipes"
+    need gitleaks "secret scanning in the pre-commit hook"
+    [ ! -f .gitlab-ci.yml ] || need glab "GitLab CLI"
+    [ ! -f go.mod ] || { need go "Go toolchain"; need golangci-lint "Go lint"; need go-arch-lint "Go layer rules"; }
+    [ ! -d migrations ] || need squawk "migration lint"
+    [ ! -f package.json ] || { need node "JavaScript runtime"; need pnpm "package manager"; }
+    [ ! -d deploy/terraform ] || { need "terraform tofu" "infrastructure"; need tflint "Terraform lint"; }
+    [ ! -f deploy/local/docker-compose.yml ] || need docker "local stack"
+    if command -v glab >/dev/null && ! glab auth status >/dev/null 2>&1; then echo "signed out glab (run: glab auth login)"; problems=1; fi
+    if [ -f deploy/local/docker-compose.yml ] && command -v docker >/dev/null && ! docker info >/dev/null 2>&1; then echo "stopped  docker (start Docker)"; problems=1; fi
+    if [ -e .adlc ]; then (cd .adlc && just pending) || problems=1; fi
+    exit $problems
+
+# Install ADLC into an existing project, then check its tools and structure
+onboard project: (install project)
+    #!/usr/bin/env bash
+    cd "{{ invocation_directory() }}" && cd "{{ project }}" || exit 1
+    just --justfile "{{ justfile() }}" doctor; doctor=$?
+    just --justfile "{{ justfile() }}" verify; verify=$?
+    exit $(( doctor || verify ))
 
 # Check a project's layout, recipes, and CI stages against the ADLC structure
-verify project:
+verify project=".":
     #!/usr/bin/env bash
     set -uo pipefail
     cd "{{ invocation_directory() }}" && cd "{{ project }}" || exit 1
