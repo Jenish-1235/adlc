@@ -1,0 +1,18 @@
+setup:
+    pnpm install --frozen-lockfile
+
+dev:
+    pnpm vite
+
+test:
+    pnpm vitest run --coverage
+
+lint:
+    pnpm eslint .
+    pnpm tsc --noEmit
+
+up:
+    docker compose -f deploy/local/docker-compose.yml up -d --wait
+
+down:
+    docker compose -f deploy/local/docker-compose.yml down

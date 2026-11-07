@@ -1,0 +1,17 @@
+setup:
+    go mod download
+
+dev:
+    go run ./cmd/api
+
+test:
+    go test -race -coverprofile=coverage.out ./...
+
+lint:
+    golangci-lint run
+
+up:
+    docker compose -f deploy/local/docker-compose.yml up -d --wait
+
+down:
+    docker compose -f deploy/local/docker-compose.yml down

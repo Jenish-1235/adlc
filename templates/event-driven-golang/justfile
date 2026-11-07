@@ -1,0 +1,19 @@
+setup:
+    go mod download
+
+dev:
+    #!/usr/bin/env bash
+    trap "kill 0" EXIT
+    go run ./cmd/api & go run ./cmd/worker & wait
+
+test:
+    go test -race -coverprofile=coverage.out ./...
+
+lint:
+    golangci-lint run
+
+up:
+    docker compose -f deploy/local/docker-compose.yml up -d --wait
+
+down:
+    docker compose -f deploy/local/docker-compose.yml down

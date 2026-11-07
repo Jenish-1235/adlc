@@ -1,6 +1,6 @@
 # Code
 
-Before editing code, read the file in `standards/` for each language you touch.
+Before editing code, read the file in `standards/` for each language you touch, and the `README.md` of each package you touch. Keep package docs current with the `update-package-docs` skill.
 
 ## Priority
 
