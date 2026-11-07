@@ -37,7 +37,7 @@ See [Adopting ADLC](guides/adopting-adlc.md).
 | Plan | `start-issue`, `create-issue` |
 | Build | `implement-design`, `write-migration`, `upgrade-dependency`, `update-package-docs`, plus each template's patterns skill |
 | Test | `run-local-stack`, `debug-ci` |
-| Review | `review-code`, `open-pr`, `address-review` |
+| Review | `review-code`, `open-pr`, `code-review-surface`, `address-review` |
 | Deploy | — |
 | Operate | `investigate-incident` |
 | Improve | `continuous-improvement` |

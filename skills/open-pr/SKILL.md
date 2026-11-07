@@ -23,5 +23,6 @@ description: Prepare and open a pull request following team standards. Use when 
      Steps a reviewer can follow.
      ```
 
-5. When CI passes, move the issue to In Review.
-6. Do not merge. Merging is Gated.
+5. If the PR touches two or more packages, build a review surface with the `code-review-surface` skill.
+6. When CI passes, move the issue to In Review.
+7. Do not merge. Merging is Gated.
