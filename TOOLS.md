@@ -43,7 +43,7 @@ Draft. Every row is a proposal until reviewed.
 
 | Tool | Purpose | Access | Gated actions |
 |---|---|---|---|
-| AWS / GCP / Azure | Compute, storage, networking, IAM | Write in sandbox, Read elsewhere | Any create, change, delete, or `apply` outside sandbox accounts |
+| AWS / GCP / Azure | Compute, storage, networking, IAM | Write without delete in sandbox, Read elsewhere | Any delete; any create, change, or `apply` outside sandbox accounts |
 | Cloudflare | Workers, KV, D1, R2, DNS | Write in sandbox, Read elsewhere | Any create, change, delete, or `apply` outside sandbox accounts |
 | Databases | Query data | Read | Any direct write or schema change (migrations follow the deploy rules above) |
 | Secrets manager | Store credentials | Blocked | — |

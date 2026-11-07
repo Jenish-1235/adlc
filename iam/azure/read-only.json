@@ -1,0 +1,36 @@
+{
+  "Name": "Agent Read Only",
+  "IsCustom": true,
+  "Description": "Reader minus log queries and read operations that return keys. No data plane access.",
+  "Actions": [
+    "*/read"
+  ],
+  "NotActions": [
+    "Microsoft.OperationalInsights/workspaces/query/*",
+    "Microsoft.OperationalInsights/workspaces/tables/query/read",
+    "Microsoft.OperationalInsights/workspaces/sharedkeys/read",
+    "Microsoft.OperationalInsights/workspaces/listKeys/read",
+    "Microsoft.Insights/Logs/*",
+    "Microsoft.Insights/Components/Query/Read",
+    "Microsoft.Insights/Components/ApiKeys/Read",
+    "Microsoft.ContainerInstance/containerGroups/containers/logs/read",
+    "Microsoft.Resources/deploymentScripts/logs/read",
+    "Microsoft.Network/connections/sharedKey/read",
+    "microsoft.network/vpnGateways/vpnConnections/vpnLinkConnections/sharedKeys/read",
+    "microsoft.network/vpnGateways/vpnConnections/vpnLinkConnections/sharedKeys/default/read",
+    "microsoft.web/sites/functions/masterkey/read",
+    "microsoft.web/sites/functions/token/read",
+    "microsoft.web/sites/hostruntime/functions/keys/read",
+    "microsoft.web/sites/config/web/connectionstrings/read",
+    "microsoft.web/sites/slots/config/web/connectionstrings/read",
+    "Microsoft.Logic/workflows/accessKeys/read",
+    "Microsoft.ApiManagement/service/users/keys/read",
+    "Microsoft.ApiManagement/service/tenants/keys/read",
+    "Microsoft.DocumentDB/databaseAccounts/readonlykeys/read"
+  ],
+  "DataActions": [],
+  "NotDataActions": [],
+  "AssignableScopes": [
+    "/subscriptions/<subscription-id>"
+  ]
+}

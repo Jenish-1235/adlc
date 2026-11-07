@@ -1,0 +1,120 @@
+{
+  "displayName": "AI agent guardrails",
+  "rules": [
+    {
+      "denyRule": {
+        "deniedPrincipals": [
+          "principal://iam.googleapis.com/projects/-/serviceAccounts/agent-read-only@<project-id>.iam.gserviceaccount.com",
+          "principal://iam.googleapis.com/projects/-/serviceAccounts/agent-sandbox@<sandbox-project-id>.iam.gserviceaccount.com"
+        ],
+        "deniedPermissions": [
+          "secretmanager.googleapis.com/versions.access",
+          "cloudkms.googleapis.com/cryptoKeyVersions.useToDecrypt",
+          "iam.googleapis.com/roles.create",
+          "iam.googleapis.com/roles.update",
+          "iam.googleapis.com/roles.delete",
+          "iam.googleapis.com/roles.undelete",
+          "iam.googleapis.com/serviceAccounts.create",
+          "iam.googleapis.com/serviceAccounts.update",
+          "iam.googleapis.com/serviceAccounts.delete",
+          "iam.googleapis.com/serviceAccounts.setIamPolicy",
+          "iam.googleapis.com/serviceAccounts.getAccessToken",
+          "iam.googleapis.com/serviceAccounts.getOpenIdToken",
+          "iam.googleapis.com/serviceAccounts.signBlob",
+          "iam.googleapis.com/serviceAccounts.signJwt",
+          "iam.googleapis.com/serviceAccounts.implicitDelegation",
+          "iam.googleapis.com/serviceAccountKeys.*",
+          "iam.googleapis.com/policybindings.*",
+          "iam.googleapis.com/principalaccessboundarypolicies.*",
+          "orgpolicy.googleapis.com/*.*",
+          "cloudresourcemanager.googleapis.com/organizations.setIamPolicy",
+          "cloudresourcemanager.googleapis.com/folders.setIamPolicy",
+          "cloudresourcemanager.googleapis.com/projects.setIamPolicy",
+          "cloudresourcemanager.googleapis.com/projects.createBillingAssignment",
+          "cloudresourcemanager.googleapis.com/projects.deleteBillingAssignment",
+          "cloudresourcemanager.googleapis.com/projects.update",
+          "cloudresourcemanager.googleapis.com/projects.move",
+          "cloudresourcemanager.googleapis.com/projects.delete",
+          "artifactregistry.googleapis.com/repositories.setIamPolicy",
+          "bigquery.googleapis.com/datasets.setIamPolicy",
+          "bigquery.googleapis.com/tables.setIamPolicy",
+          "cloudfunctions.googleapis.com/functions.setIamPolicy",
+          "cloudkms.googleapis.com/cryptoKeys.setIamPolicy",
+          "compute.googleapis.com/disks.setIamPolicy",
+          "compute.googleapis.com/images.setIamPolicy",
+          "compute.googleapis.com/instances.setIamPolicy",
+          "compute.googleapis.com/snapshots.setIamPolicy",
+          "compute.googleapis.com/projects.setCommonInstanceMetadata",
+          "pubsub.googleapis.com/subscriptions.setIamPolicy",
+          "pubsub.googleapis.com/topics.setIamPolicy",
+          "run.googleapis.com/jobs.setIamPolicy",
+          "run.googleapis.com/services.setIamPolicy",
+          "secretmanager.googleapis.com/secrets.setIamPolicy",
+          "storage.googleapis.com/buckets.setIamPolicy",
+          "storage.googleapis.com/managedFolders.setIamPolicy",
+          "storage.googleapis.com/objects.setIamPolicy"
+        ]
+      }
+    },
+    {
+      "denyRule": {
+        "deniedPrincipals": [
+          "principal://iam.googleapis.com/projects/-/serviceAccounts/agent-read-only@<project-id>.iam.gserviceaccount.com"
+        ],
+        "deniedPermissions": [
+          "iam.googleapis.com/serviceAccounts.actAs",
+          "storage.googleapis.com/objects.get",
+          "bigquery.googleapis.com/tables.getData",
+          "bigquery.googleapis.com/tables.export",
+          "datastore.googleapis.com/entities.get",
+          "datastore.googleapis.com/entities.list",
+          "spanner.googleapis.com/databases.read",
+          "spanner.googleapis.com/databases.select",
+          "bigtable.googleapis.com/tables.readRows",
+          "cloudsql.googleapis.com/instances.connect",
+          "cloudsql.googleapis.com/instances.executeSql",
+          "logging.googleapis.com/logEntries.list",
+          "logging.googleapis.com/privateLogEntries.list",
+          "logging.googleapis.com/views.access",
+          "pubsub.googleapis.com/subscriptions.consume",
+          "cloudfunctions.googleapis.com/functions.sourceCodeGet",
+          "compute.googleapis.com/instances.getSerialPortOutput",
+          "artifactregistry.googleapis.com/repositories.downloadArtifacts"
+        ]
+      }
+    },
+    {
+      "denyRule": {
+        "deniedPrincipals": [
+          "principal://iam.googleapis.com/projects/-/serviceAccounts/agent-sandbox@<sandbox-project-id>.iam.gserviceaccount.com"
+        ],
+        "deniedPermissions": [
+          "compute.googleapis.com/instances.delete",
+          "compute.googleapis.com/disks.delete",
+          "compute.googleapis.com/snapshots.delete",
+          "compute.googleapis.com/images.delete",
+          "compute.googleapis.com/networks.delete",
+          "compute.googleapis.com/subnetworks.delete",
+          "compute.googleapis.com/firewalls.delete",
+          "compute.googleapis.com/addresses.delete",
+          "compute.googleapis.com/instanceTemplates.delete",
+          "compute.googleapis.com/instanceGroups.delete",
+          "compute.googleapis.com/instanceGroupManagers.delete",
+          "storage.googleapis.com/buckets.delete",
+          "storage.googleapis.com/objects.delete",
+          "storage.googleapis.com/multipartUploads.abort",
+          "run.googleapis.com/services.delete",
+          "run.googleapis.com/jobs.delete",
+          "run.googleapis.com/revisions.delete",
+          "run.googleapis.com/executions.delete",
+          "pubsub.googleapis.com/topics.delete",
+          "pubsub.googleapis.com/topics.detachSubscription",
+          "pubsub.googleapis.com/subscriptions.delete",
+          "pubsub.googleapis.com/snapshots.delete",
+          "artifactregistry.googleapis.com/repositories.delete",
+          "serviceusage.googleapis.com/services.disable"
+        ]
+      }
+    }
+  ]
+}
