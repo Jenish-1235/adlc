@@ -1,0 +1,26 @@
+version: 3
+
+allow:
+  depOnAnyVendor: true
+
+components:
+  domain:
+    in: internal/domain/**
+  application:
+    in: internal/application/**
+  infrastructure:
+    in: internal/infrastructure/**
+  http:
+    in: internal/interfaces/http/**
+  cmd:
+    in: cmd/**
+
+deps:
+  application:
+    mayDependOn: [domain]
+  infrastructure:
+    mayDependOn: [domain]
+  http:
+    mayDependOn: [application, domain]
+  cmd:
+    anyProjectDeps: true

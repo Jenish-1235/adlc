@@ -1,0 +1,30 @@
+version: 3
+
+allow:
+  depOnAnyVendor: true
+
+components:
+  events:
+    in: internal/events/**
+  handlers:
+    in: internal/handlers/**
+  outbox:
+    in: internal/outbox/**
+  producers:
+    in: internal/producers/**
+  consumers:
+    in: internal/consumers/**
+  cmd:
+    in: cmd/**
+
+deps:
+  handlers:
+    mayDependOn: [events]
+  outbox:
+    mayDependOn: [events]
+  producers:
+    mayDependOn: [events, outbox]
+  consumers:
+    mayDependOn: [events, handlers]
+  cmd:
+    anyProjectDeps: true

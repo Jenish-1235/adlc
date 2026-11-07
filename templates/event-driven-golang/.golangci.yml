@@ -1,0 +1,45 @@
+version: "2"
+
+linters:
+  enable:
+    - bodyclose
+    - containedctx
+    - contextcheck
+    - errname
+    - errorlint
+    - exhaustive
+    - fatcontext
+    - forcetypeassert
+    - gochecknoglobals
+    - gochecknoinits
+    - gosec
+    - iface
+    - interfacebloat
+    - ireturn
+    - modernize
+    - nilerr
+    - nilnil
+    - noctx
+    - nolintlint
+    - revive
+    - rowserrcheck
+    - sloglint
+    - sqlclosecheck
+    - thelper
+    - unparam
+    - usetesting
+  settings:
+    iface:
+      enable:
+        - identical
+        - unused
+        - opaque
+    sloglint:
+      no-global: all
+      context: all
+      static-msg: true
+
+formatters:
+  enable:
+    - gofumpt
+    - goimports

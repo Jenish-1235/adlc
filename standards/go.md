@@ -6,7 +6,7 @@ Baseline: Go 1.27. Run `go fix ./...` after every toolchain upgrade.
 
 - Use `wg.Go(f)`, not `Add`/`Done`. Use `errors.AsType[T]`, not `errors.As`. Use `new(expr)`, not `ptr()` helpers.
 - Reach for the standard library before a dependency: `net/http` routing, `log/slog`, `uuid`, `encoding/json/v2`, `slices`, `maps`, `testing/synctest`.
-- Track dev tools with `go get -tool`, not `tools.go`.
+- Track Go dev tools with `go get -tool`, not `tools.go`. Linters (`golangci-lint`, `go-arch-lint`) are installed as binaries, and `just doctor` checks them.
 
 ## Naming
 

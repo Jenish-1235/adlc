@@ -87,6 +87,11 @@ doctor project=".":
     [ ! -f package.json ] || { need node "JavaScript runtime"; need pnpm "package manager"; }
     [ ! -d deploy/terraform ] || { need "terraform tofu" "infrastructure"; need tflint "Terraform lint"; }
     [ ! -f deploy/local/docker-compose.yml ] || need docker "local stack"
+    if [ -f package.json ] && command -v pnpm >/dev/null; then
+      want=$(sed -nE 's/.*"packageManager": *"pnpm@([0-9]+).*/\1/p' package.json)
+      have=$(npm_config_manage_package_manager_versions=false pnpm --version | cut -d. -f1)
+      if [ -n "$want" ] && [ "$have" -lt "$want" ]; then echo "outdated pnpm $have (project needs $want)"; problems=1; fi
+    fi
     if command -v glab >/dev/null && ! glab auth status >/dev/null 2>&1; then echo "signed out glab (run: glab auth login)"; problems=1; fi
     if [ -f deploy/local/docker-compose.yml ] && command -v docker >/dev/null && ! docker info >/dev/null 2>&1; then echo "stopped  docker (start Docker)"; problems=1; fi
     if [ -e .adlc ]; then (cd .adlc && just pending) || problems=1; fi

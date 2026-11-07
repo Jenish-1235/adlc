@@ -1,5 +1,7 @@
 setup:
     go mod download
+    tflint --init --config=deploy/terraform/.tflint.hcl
+    git config core.hooksPath .githooks
 
 dev:
     go run ./cmd/api
@@ -9,6 +11,11 @@ test:
 
 lint:
     golangci-lint run
+    ! grep -rn --include='*.go' '//nolint' .
+    go-arch-lint check
+    squawk --no-error-on-unmatched-pattern 'migrations/*.sql'
+    terraform fmt -check -recursive deploy/terraform
+    tflint --chdir=deploy/terraform --recursive --config="{{ justfile_directory() }}/deploy/terraform/.tflint.hcl"
 
 up:
     docker compose -f deploy/local/docker-compose.yml up -d --wait

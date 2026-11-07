@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+
+if git rev-parse -q --verify HEAD >/dev/null && [ "$(git branch --show-current)" = main ]; then
+  echo "pre-commit: never commit to main; create a branch" >&2
+  exit 1
+fi
+
+gitleaks git --pre-commit --redact --staged
+just lint
+just test
