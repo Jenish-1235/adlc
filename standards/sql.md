@@ -23,7 +23,7 @@ Baseline: PostgreSQL 18.
 - Every migration works with the app version currently running. Use expand, migrate, contract. A rename is: add the new column, write to both, backfill, switch reads, drop the old one in a later release.
 - Drop columns, tables, and constraints only in the contract step, once no deployed code uses them.
 - One logical change per migration. Statements that can't run in a transaction get their own file.
-- Set `lock_timeout` (about 1s) and `statement_timeout` in every migration.
+- Run migrations on a connection that sets `lock_timeout` (about 1s) and `statement_timeout`, e.g. `?options=-c%20lock_timeout%3D1s%20-c%20statement_timeout%3D5min` in the database URL. Never set them inside migration files.
 - Create and drop indexes on existing tables with `CONCURRENTLY`.
 - Add a unique constraint by building the unique index concurrently, then `ADD CONSTRAINT … USING INDEX`.
 - Add foreign keys and `CHECK` constraints as `NOT VALID`, then `VALIDATE CONSTRAINT` separately.

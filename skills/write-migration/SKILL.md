@@ -12,7 +12,7 @@ description: Write a safe, backward-compatible PostgreSQL migration. Use when ad
 
    Renames, type changes, drops, and new `NOT NULL` on existing columns need all three phases, in separate releases.
 2. Write one logical change per migration, with an up and a down file named the way the project's migration tool expects.
-3. Start every migration by setting `lock_timeout` and `statement_timeout`.
+3. Check that the migration connection sets `lock_timeout` and `statement_timeout`, as `.adlc/standards/sql.md` describes.
 4. Use the safe patterns in `.adlc/standards/sql.md`.
 5. Run `squawk` on the new files and fix every finding.
 6. Run up, down, and up again against the local database (`just up`).
