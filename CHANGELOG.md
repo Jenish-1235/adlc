@@ -10,3 +10,6 @@ Append-only. Read the sections after your pinned version before moving the pin.
 - Project templates with layouts, justfiles, pattern skills, and package docs.
 - Least-privilege IAM policies for AWS, GCP, Azure, and Cloudflare.
 - `just` recipes: new, onboard, verify, doctor, pending, install, pin, uninstall, release, validate.
+- `code-review-surface` skill: a read-only, per-package HTML review board for PRs.
+- Templates ship linter configs (golangci-lint, go-arch-lint, ESLint, Squawk, TFLint), a pre-commit hook, and working Vite and Next.js configs.
+- Migration timeouts are set on the migration connection, not inside files.
