@@ -13,13 +13,15 @@ Agentic Development Lifecycle: the team's shared tools, rules, and workflows for
 | `skills/` | Agents | Step-by-step workflows, loaded when a task matches |
 | `guides/` | Humans | How to adopt and extend this repo |
 | `templates/` | Humans | Starting layouts for new projects |
-| `justfile` | Humans | New project, install, uninstall, and validate |
+| `iam/` | Humans | Least-privilege cloud identities for agents |
+| `justfile` | Humans | New, onboard, verify, install, uninstall, and validate |
 
 ## Quick start
 
 ```sh
 just new ddd-golang ~/code/my-service   # new project from a template
-just install ~/code/my-project          # existing project
+just onboard ~/code/my-project          # existing project: install, then report gaps
+just verify ~/code/my-project           # recheck after migrating
 ```
 
 See [Adopting ADLC](guides/adopting-adlc.md).
@@ -28,8 +30,9 @@ See [Adopting ADLC](guides/adopting-adlc.md).
 
 | Stage | Skills |
 |---|---|
-| Plan | `start-issue` |
-| Build | `implement-design` |
+| Onboard | `onboard-project` |
+| Plan | `start-issue`, `create-issue` |
+| Build | `implement-design`, `update-package-docs`, plus each template's patterns skill |
 | Test | `run-local-stack`, `debug-ci` |
 | Review | `open-pr`, `address-review` |
 | Deploy | — |
