@@ -8,7 +8,7 @@ const steps = [
 ] as const
 
 export default function Home() {
-  const title = projectTitle(process.env.npm_package_name ?? "")
+  const title = projectTitle(process.env.APP_NAME ?? "")
 
   return (
     <main className="page">

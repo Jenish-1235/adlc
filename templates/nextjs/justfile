@@ -10,7 +10,7 @@ setup:
 
 # Run the app; PORT and HOST override the defaults
 dev:
-    pnpm next dev --port "${PORT:-3000}" --hostname "${HOST:-127.0.0.1}"
+    APP_NAME="$(node -p "require('./package.json').name")" pnpm next dev --port "${PORT:-3000}" --hostname "${HOST:-127.0.0.1}"
 
 # Run tests with coverage
 test:
