@@ -1,0 +1,27 @@
+# Local services for development and integration tests: `just up` / `just down`.
+#
+# Host ports come from variables so several projects can run side by side,
+# e.g. DB_PORT=5433 just up. Data lives in named volumes and survives `down`.
+#
+# Example (uncomment to add Postgres):
+#
+# services:
+#   db:
+#     image: postgres:18
+#     environment:
+#       POSTGRES_USER: app
+#       POSTGRES_PASSWORD: app
+#       POSTGRES_DB: app
+#     ports:
+#       - "${DB_PORT:-5432}:5432"
+#     volumes:
+#       - db:/var/lib/postgresql
+#     healthcheck:
+#       test: ["CMD-SHELL", "pg_isready -U app"]
+#       interval: 2s
+#       retries: 30
+#
+# volumes:
+#   db:
+
+services: {}

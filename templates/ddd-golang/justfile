@@ -1,24 +1,33 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+compose := "docker compose -f deploy/local/docker-compose.yml"
+
+# Download modules and install git hooks
 setup:
     go mod download
-    tflint --init --config=deploy/terraform/.tflint.hcl
     git config core.hooksPath .githooks
+    if [ -n "$(find deploy/terraform -name '*.tf' -print -quit)" ]; then tflint --init --config=deploy/terraform/.tflint.hcl; fi
 
+# Run the API; PORT and HOST override the defaults
 dev:
     go run ./cmd/api
 
+# Run tests with the race detector
 test:
     go test -race -coverprofile=coverage.out ./...
 
+# Check style, architecture, and migrations
 lint:
     golangci-lint run
     ! grep -rn --include='*.go' '//nolint' .
     go-arch-lint check
-    squawk --no-error-on-unmatched-pattern 'migrations/*.sql'
-    terraform fmt -check -recursive deploy/terraform
-    tflint --chdir=deploy/terraform --recursive --config="{{ justfile_directory() }}/deploy/terraform/.tflint.hcl"
+    if compgen -G 'migrations/*.sql' >/dev/null; then squawk 'migrations/*.sql'; fi
+    if [ -n "$(find deploy/terraform -name '*.tf' -print -quit)" ]; then terraform fmt -check -recursive deploy/terraform && tflint --chdir=deploy/terraform --recursive --config="{{ justfile_directory() }}/deploy/terraform/.tflint.hcl"; fi
 
+# Start local services (databases, queues) from deploy/local
 up:
-    docker compose -f deploy/local/docker-compose.yml up -d --wait
+    if {{ compose }} config --services 2>/dev/null | grep -q .; then {{ compose }} up -d --wait; else echo "No local services yet: add them to deploy/local/docker-compose.yml"; fi
 
+# Stop local services (data is kept)
 down:
-    docker compose -f deploy/local/docker-compose.yml down
+    {{ compose }} down
