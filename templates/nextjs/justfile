@@ -1,22 +1,32 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+compose := "docker compose -f deploy/local/docker-compose.yml"
+
+# Install dependencies and git hooks
 setup:
     pnpm install --frozen-lockfile
-    tflint --init --config=deploy/terraform/.tflint.hcl
     git config core.hooksPath .githooks
+    if [ -n "$(find deploy/terraform -name '*.tf' -print -quit)" ]; then tflint --init --config=deploy/terraform/.tflint.hcl; fi
 
+# Run the app; PORT and HOST override the defaults
 dev:
-    pnpm next dev
+    pnpm next dev --port "${PORT:-3000}" --hostname "${HOST:-127.0.0.1}"
 
+# Run tests with coverage
 test:
     pnpm vitest run --coverage
 
+# Check style and types
 lint:
+    pnpm next typegen
     pnpm eslint . --max-warnings 0
     pnpm tsc --noEmit
-    terraform fmt -check -recursive deploy/terraform
-    tflint --chdir=deploy/terraform --recursive --config="{{ justfile_directory() }}/deploy/terraform/.tflint.hcl"
+    if [ -n "$(find deploy/terraform -name '*.tf' -print -quit)" ]; then terraform fmt -check -recursive deploy/terraform && tflint --chdir=deploy/terraform --recursive --config="{{ justfile_directory() }}/deploy/terraform/.tflint.hcl"; fi
 
+# Start local services (databases, queues) from deploy/local
 up:
-    docker compose -f deploy/local/docker-compose.yml up -d --wait
+    if {{ compose }} config --services 2>/dev/null | grep -q .; then {{ compose }} up -d --wait; else echo "No local services yet: add them to deploy/local/docker-compose.yml"; fi
 
+# Stop local services (data is kept)
 down:
-    docker compose -f deploy/local/docker-compose.yml down
+    {{ compose }} down
