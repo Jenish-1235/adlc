@@ -21,3 +21,6 @@ Append-only. Read the sections after your pinned version before moving the pin.
 - Terraform and migration lint steps run only when the project has `.tf` or migration files; `just up` says so when there are no local services yet.
 - `ddd-golang`: `just lint` passes on a fresh copy; `main` logged its exit error without a context, which sloglint rejects.
 - Compose examples in every template restart local services after a reboot (`restart: unless-stopped`) until `just down`.
+- `python-fastapi` template: FastAPI on uv and Python 3.13 with Ruff, strict mypy, pytest with coverage, JSON logs, `GET /healthz`, a multi-stage non-root Dockerfile, and the `fastapi-patterns` skill. The import package is always `app`; only the project name changes.
+- Python standard (`standards/python.md`). `policies/code.md` lists every standard.
+- `just doctor` checks for uv in projects with a `pyproject.toml`.

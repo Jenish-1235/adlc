@@ -85,6 +85,7 @@ doctor project=".":
     [ ! -f go.mod ] || { need go "Go toolchain"; need golangci-lint "Go lint"; need go-arch-lint "Go layer rules"; }
     [ ! -d migrations ] || need squawk "migration lint"
     [ ! -f package.json ] || { need node "JavaScript runtime"; need pnpm "package manager"; }
+    [ ! -f pyproject.toml ] || need uv "Python package manager"
     [ ! -d deploy/terraform ] || { need "terraform tofu" "infrastructure"; need tflint "Terraform lint"; }
     [ ! -f deploy/local/docker-compose.yml ] || need docker "local stack"
     if [ -f package.json ] && command -v pnpm >/dev/null; then

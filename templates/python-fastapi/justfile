@@ -1,0 +1,33 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+compose := "docker compose -f deploy/local/docker-compose.yml"
+
+# Install dependencies from uv.lock and git hooks
+setup:
+    uv sync --locked
+    git config core.hooksPath .githooks
+    if [ -n "$(find deploy/terraform -name '*.tf' -print -quit)" ]; then tflint --init --config=deploy/terraform/.tflint.hcl; fi
+
+# Run the API with reload; PORT and HOST override the defaults
+dev:
+    uv run --locked uvicorn --factory app.main:create_app --reload --reload-dir src --host "${HOST:-127.0.0.1}" --port "${PORT:-8000}"
+
+# Run tests with coverage
+test:
+    uv run --locked pytest --cov
+
+# Check style and types
+lint:
+    uv run --locked ruff check
+    uv run --locked ruff format --check
+    uv run --locked mypy
+    ! grep -rnE '# *(noqa|type: *ignore|pyright: *ignore)' src tests
+    if [ -n "$(find deploy/terraform -name '*.tf' -print -quit)" ]; then terraform fmt -check -recursive deploy/terraform && tflint --chdir=deploy/terraform --recursive --config="{{ justfile_directory() }}/deploy/terraform/.tflint.hcl"; fi
+
+# Start local services (databases, queues) from deploy/local
+up:
+    if {{ compose }} config --services 2>/dev/null | grep -q .; then {{ compose }} up -d --wait; else echo "No local services yet: add them to deploy/local/docker-compose.yml"; fi
+
+# Stop local services (data is kept)
+down:
+    {{ compose }} down

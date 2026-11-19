@@ -12,6 +12,7 @@ Starting layouts for new projects. Each template is self-contained and ships:
 | `ddd-golang` | Go service with domain-driven design layers | `ddd-patterns` |
 | `event-driven-golang` | Go service with an API, a worker, and events through an outbox | `event-driven-patterns` |
 | `nextjs` | Next.js app (App Router) | `nextjs-patterns` |
+| `python-fastapi` | Python FastAPI service on uv | `fastapi-patterns` |
 | `react-vite` | React single-page app built with Vite | `react-patterns` |
 
 ## Use

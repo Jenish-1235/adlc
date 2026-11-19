@@ -2,6 +2,8 @@
 
 Before editing code, read the file in `standards/` for each language you touch, and the `README.md` of each package you touch. Keep package docs current with the `update-package-docs` skill.
 
+Standards: [Go](../standards/go.md), [Python](../standards/python.md), [TypeScript](../standards/typescript.md), [React](../standards/react.md), [Next.js](../standards/nextjs.md), [SQL](../standards/sql.md), [Terraform](../standards/terraform.md).
+
 ## Priority
 
 When rules conflict, the earlier one wins:

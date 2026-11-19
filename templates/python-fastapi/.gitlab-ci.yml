@@ -1,0 +1,13 @@
+stages:
+  - lint-and-test
+  - coverage-and-sast
+  - security-and-sbom
+  - push
+  - sign
+
+include:
+  - local: .gitlab/ci.yml
+  - local: .gitlab/ct.yml
+  - local: .gitlab/cd.yml
+  - local: .gitlab/qa.yml
+  - local: .gitlab/loadtest.yml
