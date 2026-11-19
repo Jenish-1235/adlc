@@ -2,12 +2,14 @@
 #
 # Host ports come from variables so several projects can run side by side,
 # e.g. DB_PORT=5433 just up. Data lives in named volumes and survives `down`.
+# Services come back after a reboot until `just down` removes them.
 #
 # Example (uncomment to add Postgres):
 #
 # services:
 #   db:
 #     image: postgres:18
+#     restart: unless-stopped
 #     environment:
 #       POSTGRES_USER: app
 #       POSTGRES_PASSWORD: app

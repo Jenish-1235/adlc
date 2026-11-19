@@ -20,3 +20,4 @@ Append-only. Read the sections after your pinned version before moving the pin.
 - Next.js and Vite dev servers accept extra host names from `DEV_ALLOWED_HOSTS` (e.g. `devbox,*.devbox`).
 - Terraform and migration lint steps run only when the project has `.tf` or migration files; `just up` says so when there are no local services yet.
 - `ddd-golang`: `just lint` passes on a fresh copy; `main` logged its exit error without a context, which sloglint rejects.
+- Compose examples in every template restart local services after a reboot (`restart: unless-stopped`) until `just down`.
