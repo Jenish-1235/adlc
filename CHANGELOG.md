@@ -24,3 +24,4 @@ Append-only. Read the sections after your pinned version before moving the pin.
 - `python-fastapi` template: FastAPI on uv and Python 3.13 with Ruff, strict mypy, pytest with coverage, JSON logs, `GET /healthz`, a multi-stage non-root Dockerfile, and the `fastapi-patterns` skill. The import package is always `app`; only the project name changes.
 - Python standard (`standards/python.md`). `policies/code.md` lists every standard.
 - `just doctor` checks for uv in projects with a `pyproject.toml`.
+- Each project's local services run as their own compose project, named after the project folder, so two projects' `just up` no longer share containers or data.
