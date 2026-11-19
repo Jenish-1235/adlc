@@ -22,7 +22,7 @@ func main() {
 	err := run(ctx, logger, os.Getenv)
 	stop()
 	if err != nil {
-		logger.Error("api stopped", "err", err)
+		logger.ErrorContext(ctx, "api stopped", "err", err)
 		os.Exit(1)
 	}
 }

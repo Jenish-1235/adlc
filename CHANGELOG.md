@@ -19,3 +19,4 @@ Append-only. Read the sections after your pinned version before moving the pin.
 - `nextjs`, `react-vite` and `ddd-golang` templates run out of the box: working starter code, a sample test, and `just dev` honouring `PORT` and `HOST` (for remote dev machines).
 - Next.js and Vite dev servers accept extra host names from `DEV_ALLOWED_HOSTS` (e.g. `devbox,*.devbox`).
 - Terraform and migration lint steps run only when the project has `.tf` or migration files; `just up` says so when there are no local services yet.
+- `ddd-golang`: `just lint` passes on a fresh copy; `main` logged its exit error without a context, which sloglint rejects.
